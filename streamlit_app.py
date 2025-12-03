@@ -542,13 +542,14 @@ def main():
         label_visibility="collapsed"
     )
     
-    
+    # Load models
+    model, scaler = load_model()
     
     # ====================================================================
     # PAGE 1: BATCH SCORING (ENHANCED)
     # ====================================================================
     
-    if page == "📈 Batch Scorings":
+    if page == "📈 Batch Scoring":
         st.header("📈 Batch Customer Scoring")
         st.markdown("Upload a CSV file to score multiple customers at once.")
         st.markdown("---")
