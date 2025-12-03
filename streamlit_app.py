@@ -542,8 +542,7 @@ def main():
         label_visibility="collapsed"
     )
     
-    # Load models
-    model, scaler = load_model()
+    
     
     # ====================================================================
     # PAGE 1: BATCH SCORING (ENHANCED)
