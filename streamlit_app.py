@@ -536,9 +536,8 @@ def main():
     page = st.sidebar.radio(
         "Choose Feature:",
         [
-            "📉 Analytics Dashboard",
+            "📉 Analytics Dashboard 💡 Recommendations",
             "📈 Batch Scoring", 
-            "💡 Recommendations",
             "💰 Interest Rate Calculator",
             "ℹ️ About"
         ],
@@ -628,13 +627,15 @@ def main():
                     mime="text/csv",
                     use_container_width=True
                 )
+
+                
     
     # ====================================================================
     # PAGE 2: ANALYTICS DASHBOARD (ENHANCED)
     # ====================================================================
     
-    elif page == "📉 Analytics Dashboard":
-        st.header("📉 Portfolio Analytics Dashboard")
+    elif page == "📉 Analytics Dashboard 💡 Recommendations":
+        st.header("dataset Analytics Dashboard")
         st.markdown("Comprehensive portfolio insights and analysis")
         st.markdown("---")
         
@@ -660,37 +661,41 @@ def main():
             st.markdown("---")
             
             col1, col2 = st.columns(2)
+                      
+        
+        if df is not None:
+            customer = st.selectbox(
+                "🔍 Select Customer",
+                df['Name'].unique(),
+                label_visibility="visible"
+            )
+            customer_row = df[df['Name'] == customer].iloc[0]
             
+            score = calculate_credit_score(customer_row)
+            tier, emoji = get_credit_tier(score)
+            
+            # Customer Card
+            col1, col2, col3 = st.columns(3)
             with col1:
-                st.subheader("📈 Credit Score Distribution")
-                fig = px.histogram(
-                    df, 
-                    x='Credit_Score', 
-                    nbins=30,
-                    title='Distribution of Credit Scores',
-                    labels={'Credit_Score': 'Score', 'count': 'Customers'},
-                    color_discrete_sequence=['#00d4ff']
-                )
-                fig.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(15,15,30,0.5)',
-                    font={'color': '#00d4ff'}
-                )
-                st.plotly_chart(fig, use_container_width=True)
-            
+                st.metric("👤 Customer", customer)
             with col2:
-                st.subheader("🎯 Credit Tier Distribution")
-                tier_counts = df['Credit_Tier'].value_counts()
-                fig = go.Figure(data=[go.Pie(
-                    labels=tier_counts.index,
-                    values=tier_counts.values,
-                    marker=dict(colors=['#4caf50', '#81c784', '#ffc107', '#ff9800', '#f44336'])
-                )])
-                fig.update_layout(
-                    paper_bgcolor='rgba(15,15,30,0.5)',
-                    font={'color': '#00d4ff'}
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                st.metric("⭐ Score", f"{score}/850")
+            with col3:
+                st.metric("📊 Tier", f"{emoji} {tier}")
+            
+            st.markdown("---")
+            st.subheader("✨ Improvement Suggestions")
+            
+            suggestions = generate_suggestions(customer_row, score, tier)
+            
+            if suggestions:
+                for i, sugg in enumerate(suggestions, 1):
+                    with st.expander(f"{i}. {sugg['category']} ({sugg['priority']})"):
+                        st.write(sugg['suggestion'])
+                        st.markdown(f"**💪 Potential Impact:** `+{sugg['impact']} improvement`")
+            else:
+                st.success("✅ No improvements needed! This customer has excellent credit practices.")
+    
     
     # ====================================================================
     # PAGE 3: RECOMMENDATIONS (ENHANCED)
