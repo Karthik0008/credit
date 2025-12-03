@@ -548,7 +548,7 @@ def main():
     # PAGE 1: BATCH SCORING (ENHANCED)
     # ====================================================================
     
-    if page == "📈 Batch Scoring":
+    if page == "📈 Batch Scorings":
         st.header("📈 Batch Customer Scoring")
         st.markdown("Upload a CSV file to score multiple customers at once.")
         st.markdown("---")
