@@ -8,7 +8,6 @@ import pandas as pd
 import numpy as np
 import pickle
 import warnings
-from sklearn.preprocessing import LabelEncoder
 import plotly.graph_objects as go
 import plotly.express as px
 
