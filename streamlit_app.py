@@ -32,299 +32,206 @@ st.markdown("""
     * {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    
-    /* Main App Background - Gradient */
+
+    /* Main App Background - very light neutral */
     .stApp {
-        background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 50%, #0f2d4d 100%);
+        background: #F5F7FA;
     }
-    
-    /* Metrics - Enhanced with Glassmorphism */
-    .stMetric {
-        background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 150, 200, 0.1) 100%);
-        padding: 20px;
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(0, 212, 255, 0.3);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        backdrop-filter: blur(10px);
-    }
-    
-    .stMetric:hover {
-        transform: translateY(-8px) scale(1.05);
-        box-shadow: 0 15px 50px rgba(0, 212, 255, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        border-color: rgba(0, 212, 255, 0.6);
-        background: linear-gradient(135deg, rgba(0, 212, 255, 0.25) 0%, rgba(0, 150, 200, 0.15) 100%);
-    }
-    
-    .stMetric label {
-        color: #00d4ff !important;
-        font-weight: 700;
-        font-size: 14px;
-        text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-    }
-    
-    .stMetric [data-testid="metricDeltaContainer"] {
-        color: #00ff88 !important;
-        font-weight: 600;
-    }
-    
-    /* Headers - Neon Effect */
+
+    /* Headers - muted navy */
     h1 {
-        color: #00d4ff !important;
+        color: #1F3B57 !important;
         text-align: center;
-        font-size: 3.2em;
-        font-weight: 900;
-        text-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 180, 219, 0.3);
-        margin-bottom: 10px;
-        letter-spacing: 3px;
-        background: linear-gradient(135deg, #00d4ff 0%, #00b4db 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: glow 2s ease-in-out infinite;
-    }
-    
-    h2 {
-        color: #00d4ff !important;
-        border-bottom: 3px solid #00d4ff !important;
-        border-image: linear-gradient(135deg, #00d4ff, #0083b0) 1;
-        padding-bottom: 15px;
-        font-size: 1.9em;
+        font-size: 2.4em;
         font-weight: 800;
-        text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.5px;
     }
-    
+
+    h2 {
+        color: #1F3B57 !important;
+        border-bottom: 1px solid #D3D9E4 !important;
+        padding-bottom: 0.4rem;
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+
     h3 {
-        color: #00d4ff !important;
-        font-weight: 700;
-        text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
-    }
-    
-    @keyframes glow {
-        0%, 100% { text-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 180, 219, 0.3); }
-        50% { text-shadow: 0 0 30px rgba(0, 212, 255, 0.8), 0 0 60px rgba(0, 180, 219, 0.5); }
-    }
-    
-    /* Colored Boxes - Glassmorphism with Glow */
-    .success-box {
-        background: linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(56, 142, 60, 0.08));
-        border: 2px solid rgba(76, 175, 80, 0.5);
-        padding: 16px;
-        border-radius: 15px;
-        color: #81c784;
+        color: #274766 !important;
         font-weight: 600;
-        box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 5px solid #4caf50;
     }
-    
-    .warning-box {
-        background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(245, 127, 23, 0.08));
-        border: 2px solid rgba(255, 193, 7, 0.5);
-        padding: 16px;
-        border-radius: 15px;
-        color: #ffb74d;
+
+    /* Metrics - simple cards */
+    .stMetric {
+        background: #FFFFFF;
+        padding: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+        border: 1px solid #E1E5EE;
+        transition: box-shadow 0.15s ease, transform 0.15s ease;
+    }
+
+    .stMetric:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(15, 23, 42, 0.12);
+    }
+
+    .stMetric label {
+        color: #4B5563 !important;
         font-weight: 600;
-        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 5px solid #ffc107;
+        font-size: 13px;
     }
-    
-    .danger-box {
-        background: linear-gradient(135deg, rgba(244, 67, 54, 0.12), rgba(229, 57, 53, 0.08));
-        border: 2px solid rgba(244, 67, 54, 0.5);
-        padding: 16px;
-        border-radius: 15px;
-        color: #ef5350;
+
+    .stMetric [data-testid="metricDeltaContainer"] {
+        color: #2F6F3E !important;
         font-weight: 600;
-        box-shadow: 0 8px 25px rgba(244, 67, 54, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-left: 5px solid #f44336;
     }
-    
-    /* Buttons - Animated with Gradient */
-    .stButton > button {
-        background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
-        color: white;
-        border: 2px solid rgba(0, 212, 255, 0.4);
-        padding: 14px 35px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 15px;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 6px 20px rgba(0, 180, 219, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .stButton > button::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        transition: left 0.5s;
-    }
-    
-    .stButton > button:hover {
-        background: linear-gradient(135deg, #0083b0 0%, #00b4db 100%);
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 12px 35px rgba(0, 180, 219, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        border-color: rgba(0, 212, 255, 0.8);
-    }
-    
-    .stButton > button::before {
-        left: 100%;
-    }
-    
-    /* Input Fields - Enhanced */
-    .stNumberInput input, .stSelectbox select, .stSlider div {
-        background-color: rgba(0, 180, 219, 0.08) !important;
-        border: 2px solid rgba(0, 212, 255, 0.4) !important;
-        color: #00d4ff !important;
-        border-radius: 12px;
-        padding: 12px 15px;
-        transition: all 0.3s ease;
-        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-    
-    .stNumberInput input:focus, .stSelectbox select:focus {
-        border-color: #00d4ff !important;
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), inset 0 2px 5px rgba(0, 0, 0, 0.2) !important;
-        background-color: rgba(0, 180, 219, 0.12) !important;
-    }
-    
-    /* File Uploader - Glassmorphism */
-    .stFileUploader {
-        background: linear-gradient(135deg, rgba(0, 180, 219, 0.1), rgba(0, 131, 176, 0.05));
-        border: 2.5px dashed rgba(0, 212, 255, 0.5);
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        transition: all 0.3s ease;
-    }
-    
-    .stFileUploader:hover {
-        border-color: rgba(0, 212, 255, 0.8);
-        box-shadow: 0 12px 35px rgba(0, 212, 255, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-        background: linear-gradient(135deg, rgba(0, 180, 219, 0.15), rgba(0, 131, 176, 0.1));
-    }
-    
-    /* Dataframe - Styled */
-    .stDataFrame {
-        background-color: rgba(0, 180, 219, 0.05) !important;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.1);
-    }
-    
-    /* Sidebar - Enhanced */
+
+    /* Sidebar - flat, formal blue */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0a1929 0%, #132f4c 50%, #0a1929 100%);
-        border-right: 3px solid rgba(0, 212, 255, 0.3);
-        box-shadow: inset -5px 0 15px rgba(0, 212, 255, 0.1);
+        background: #233649;
+        border-right: 1px solid #D3D9E4;
     }
-    
-    /* Radio Button - Styled */
+
+    [data-testid="stSidebar"] * {
+        color: #F9FAFB !important;
+    }
+
+    /* Radio buttons in sidebar */
     .stRadio > div > label {
-        color: #00d4ff !important;
-        font-weight: 700;
-        font-size: 16px;
-        padding: 12px 15px;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        margin: 5px 0;
-        border: 2px solid transparent;
+        color: #F9FAFB !important;
+        font-weight: 500;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        margin: 3px 0;
+        transition: background-color 0.15s ease;
     }
-    
+
     .stRadio > div > label:hover {
-        background-color: rgba(0, 212, 255, 0.15);
-        border-color: rgba(0, 212, 255, 0.4);
-        text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
-        box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+        background-color: rgba(255, 255, 255, 0.10);
     }
-    
-    /* Info Box */
-    .stInfo {
-        background: linear-gradient(135deg, rgba(0, 180, 219, 0.12), rgba(0, 131, 176, 0.08));
-        border-left: 5px solid #00b4db !important;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 180, 219, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        border: 2px solid rgba(0, 212, 255, 0.3);
-        backdrop-filter: blur(10px);
+
+    /* Buttons - toned-down blue */
+    .stButton > button {
+        background: #265A88;
+        color: #FFFFFF;
+        border: 1px solid #1E476B;
+        padding: 9px 22px;
+        border-radius: 18px;
+        font-weight: 600;
+        font-size: 13px;
+        transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
     }
-    
-    /* Expander - Interactive */
-    .streamlit-expanderHeader {
-        background: linear-gradient(135deg, rgba(0, 180, 219, 0.15), rgba(0, 131, 176, 0.1));
-        border-radius: 12px;
-        color: #00d4ff !important;
-        font-weight: 700;
-        border: 2px solid rgba(0, 212, 255, 0.3);
-        transition: all 0.3s ease;
+
+    .stButton > button:hover {
+        background: #1E476B;
+        box-shadow: 0 3px 8px rgba(30, 71, 107, 0.22);
+        transform: translateY(-1px);
     }
-    
-    .streamlit-expanderHeader:hover {
-        background: linear-gradient(135deg, rgba(0, 180, 219, 0.25), rgba(0, 131, 176, 0.15));
-        border-color: rgba(0, 212, 255, 0.6);
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+
+    .stButton > button:active {
+        transform: translateY(0);
+        box-shadow: none;
     }
-    
-    /* Divider */
-    hr {
-        border: 1px solid rgba(0, 212, 255, 0.3) !important;
+
+    /* Success / warning / danger boxes - softer colors */
+    .success-box {
+        background: #EDF6EF;
+        border: 1px solid #2F6F3E;
+        border-left: 4px solid #2F6F3E;
+        padding: 10px;
+        border-radius: 6px;
+        color: #23472D;
+        font-weight: 500;
+    }
+
+    .warning-box {
+        background: #FFF6E5;
+        border: 1px solid #D2961A;
+        border-left: 4px solid #D2961A;
+        padding: 10px;
+        border-radius: 6px;
+        color: #725535;
+        font-weight: 500;
+    }
+
+    .danger-box {
+        background: #FDEBEC;
+        border: 1px solid #B53A3A;
+        border-left: 4px solid #B53A3A;
+        padding: 10px;
+        border-radius: 6px;
+        color: #7F2525;
+        font-weight: 500;
+    }
+
+    /* Inputs */
+    .stNumberInput input, .stSelectbox select, .stSlider div {
+        background-color: #FFFFFF !important;
+        border: 1px solid #D1D5DB !important;
+        color: #111827 !important;
+        border-radius: 8px;
+        padding: 8px 10px;
+    }
+
+    .stNumberInput input:focus, .stSelectbox select:focus {
+        border-color: #265A88 !important;
+        box-shadow: 0 0 0 1px #265A88 !important;
+    }
+
+    /* File uploader */
+    .stFileUploader {
+        background: #FFFFFF;
+        border: 1px dashed #C4CCDA;
         border-radius: 10px;
-        background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+        padding: 14px;
     }
-    
-    /* Markdown Text */
-    .markdown-text-container {
-        color: #e0e0e0;
+
+    /* Dataframe container */
+    .stDataFrame {
+        background-color: #FFFFFF !important;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
     }
-    
-    /* Spinner */
-    .stSpinner div {
-        border-color: rgba(0, 212, 255, 0.5) !important;
+
+    /* Info / success messages */
+    .stInfo {
+        background: #E6EEF9;
+        border-left: 4px solid #265A88 !important;
+        border-radius: 8px;
     }
-    
-    /* Success Message */
+
     .stSuccess {
-        background: linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(56, 142, 60, 0.08));
-        border-left: 5px solid #4caf50 !important;
-        border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+        background: #EDF6EF;
+        border-left: 4px solid #2F6F3E !important;
+        border-radius: 8px;
     }
-    
-    /* Download Button */
-    .stDownloadButton > button {
-        background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%);
-        color: white;
-        border: 2px solid rgba(0, 212, 255, 0.4);
-        padding: 14px 35px;
-        border-radius: 30px;
-        font-weight: 700;
-        box-shadow: 0 6px 20px rgba(0, 180, 219, 0.4);
+
+    /* Dividers */
+    hr {
+        border: none;
+        border-top: 1px solid #D3D9E4 !important;
+        margin: 0.8rem 0;
     }
-    
-    .stDownloadButton > button:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 12px 35px rgba(0, 180, 219, 0.6);
+
+    /* General text */
+    .markdown-text-container, .stMarkdown {
+        color: #1F2933;
     }
-    
-    /* Stat Card Container */
-    .stat-card {
-        background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 150, 200, 0.05));
-        border: 2px solid rgba(0, 212, 255, 0.3);
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 8px 25px rgba(0, 212, 255, 0.1);
-        text-align: center;
+                /* Force all text to black */
+    html, body, .stApp,
+    .markdown-text-container,
+    .stMarkdown,
+    [class^="css"], [class*=" css"],
+    h1, h2, h3, h4, h5, h6,
+    label, p, span {
+        color: #000000 !important;
     }
+
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
 
 # ============================================================================
 # UTILITY FUNCTIONS (UNCHANGED)
