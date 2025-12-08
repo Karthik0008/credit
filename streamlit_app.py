@@ -29,37 +29,35 @@ st.set_page_config(
 
 st.markdown("""
     <style>
-    * {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    /* Main App Background - very light neutral */
-    .stApp {
-        background: #F5F7FA;
-    }
+        .stApp {
+            background: #F5F7FA;
+        }
 
-    /* Headers - muted navy */
-    h1 {
-        color: #1F3B57 !important;
-        text-align: center;
-        font-size: 2.4em;
-        font-weight: 800;
-        margin-bottom: 0.4rem;
-        letter-spacing: 0.5px;
-    }
+        h1 {
+            color: #1F3B57 !important;
+            text-align: center;
+            font-size: 2.4em;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.5px;
+        }
 
-    h2 {
-        color: #1F3B57 !important;
-        border-bottom: 1px solid #D3D9E4 !important;
-        padding-bottom: 0.4rem;
-        font-size: 1.5em;
-        font-weight: 700;
-    }
+        h2 {
+            color: #1F3B57 !important;
+            border-bottom: 1px solid #D3D9E4 !important;
+            padding-bottom: 0.4rem;
+            font-size: 1.5em;
+            font-weight: 700;
+        }
 
-    h3 {
-        color: #274766 !important;
-        font-weight: 600;
-    }
+        h3 {
+            color: #274766 !important;
+            font-weight: 600;
+        }
 
     /* Metrics - simple cards */
     .stMetric {
@@ -216,21 +214,14 @@ st.markdown("""
     }
 
     /* General text */
-    .markdown-text-container, .stMarkdown {
-        color: #1F2933;
-    }
-                /* Force all text to black */
-    html, body, .stApp,
-    .markdown-text-container,
-    .stMarkdown,
-    [class^="css"], [class*=" css"],
-    h1, h2, h3, h4, h5, h6,
-    label, p, span {
-        color: #000000 !important;
-    }
-
-    </style>
-""", unsafe_allow_html=True)
+    .markdown-text-container, .stMarkdown,
+        html, body, .stApp,
+        h1, h2, h3, h4, h5, h6,
+        label, p, span {
+            color: #000000 !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
 
 # ============================================================================
