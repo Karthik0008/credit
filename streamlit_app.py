@@ -85,6 +85,13 @@ st.markdown("""
         font-weight: 600;
     }
 
+    [data-testid="stMetricValue"], 
+    [data-testid="stMetricValue"] > div {
+        color: #1F3B57 !important;
+    }
+
+
+
     /* Sidebar - flat, formal blue */
     [data-testid="stSidebar"] {
         background: #233649;
