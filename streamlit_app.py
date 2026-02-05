@@ -118,9 +118,10 @@ st.markdown("""
     }
 
     /* Buttons - toned-down blue */
-    .stButton > button {
+    /* Buttons - toned-down blue */
+    .stButton > button, .stDownloadButton > button {
         background: #265A88;
-        color: #FFFFFF;
+        color: #FFFFFF !important;
         border: 1px solid #1E476B;
         padding: 9px 22px;
         border-radius: 18px;
@@ -129,13 +130,13 @@ st.markdown("""
         transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
     }
 
-    .stButton > button:hover {
+    .stButton > button:hover, .stDownloadButton > button:hover {
         background: #1E476B;
         box-shadow: 0 3px 8px rgba(30, 71, 107, 0.22);
         transform: translateY(-1px);
     }
 
-    .stButton > button:active {
+    .stButton > button:active, .stDownloadButton > button:active {
         transform: translateY(0);
         box-shadow: none;
     }
@@ -263,44 +264,53 @@ def calculate_credit_score(row):
     """Calculate credit score (300-850)"""
     score = 300
     
-    # Payment History (35%)
-    payment_score = 297
+    # Payment History (35%) - Target Max: 192.5 points
+    # Base 550 * 0.35 = 192.5
+    payment_score = 550
     if row['Num_of_Delayed_Payment'] > 0:
         payment_score -= (row['Num_of_Delayed_Payment'] * 50)
     if row['Delay_from_due_date'] > 30:
-        payment_score -= min(100, row['Delay_from_due_date'])
+        payment_score -= min(100, row['Delay_from_due_date'] * 2)
     if row['Payment_of_Min_Amount'] == 1:
-        payment_score -= 50
+        payment_score -= 100
     payment_score = max(0, payment_score)
     score += payment_score * 0.35
     
-    # Credit Utilization (30%)
-    utilization_score = 255
+    # Credit Utilization (30%) - Target Max: 165 points
+    # Base 550 * 0.30 = 165
+    utilization_score = 550
     utilization = row['Credit_Utilization_Ratio']
     if utilization > 30:
-        utilization_score -= (utilization - 30) * 5
+        utilization_score -= (utilization - 30) * 10
     utilization_score = max(0, utilization_score)
     score += utilization_score * 0.30
     
-    # Credit Age (15%)
-    age_score = 127
+    # Credit Age (15%) - Target Max: 82.5 points
+    # Base 550 * 0.15 = 82.5
+    age_score = 550
     age_years = row['Credit_History_Age_Years']
     if age_years < 2:
-        age_score = 50
+        age_score = 250
     elif age_years < 5:
-        age_score = 100
+        age_score = 400
     elif age_years >= 10:
-        age_score = 127
+        age_score = 550
+    else:
+        age_score = 450
     score += age_score * 0.15
     
-    # Credit Mix (10%)
-    mix_score = 85 if row['Credit_Mix'] == 'Good' else 50
+    # Credit Mix (10%) - Target Max: 55 points
+    # Base 550 * 0.10 = 55
+    mix_score = 550 if row['Credit_Mix'] == 'Good' else 350
     score += mix_score * 0.10
     
-    # New Inquiries (10%)
-    inquiry_score = 85
-    if row['Num_Credit_Inquiries'] > 10:
-        inquiry_score -= (row['Num_Credit_Inquiries'] - 10) * 3
+    # New Inquiries (10%) - Target Max: 55 points
+    # Base 550 * 0.10 = 55
+    inquiry_score = 550
+    if row['Num_Credit_Inquiries'] > 5:
+        inquiry_score -= (row['Num_Credit_Inquiries'] - 5) * 50
+    if row['Num_Credit_Inquiries'] > 12:
+        inquiry_score = 0
     inquiry_score = max(0, inquiry_score)
     score += inquiry_score * 0.10
     
@@ -474,6 +484,17 @@ def main():
             with col3:
                 st.metric("✅ Status", "Ready to Score")
             
+            # Initialize session state for batch results
+            if 'batch_df' not in st.session_state:
+                st.session_state.batch_df = None
+            
+            # Clear session state if a new file is uploaded
+            if st.session_state.batch_df is not None:
+                # Simple check: if rows differ, it might be a new file or just re-run. 
+                # Ideally we track file ID, but for now let's rely on the button to overwrite.
+                pass
+
+            
             st.markdown("---")
             
             if st.button("🚀 Score All Customers", use_container_width=True):
@@ -481,53 +502,122 @@ def main():
                 status_text = st.empty()
                 
                 with st.spinner("🔄 Processing customers..."):
+                    # Process the local df but save to session_state
                     df['Credit_Score'] = df.apply(calculate_credit_score, axis=1)
-                    progress_bar.progress(33)
+                    progress_bar.progress(25)
                     status_text.info("✓ Credit scores calculated")
                     
                     df['Credit_Tier'] = df['Credit_Score'].apply(lambda x: get_credit_tier(x)[0])
-                    progress_bar.progress(66)
+                    progress_bar.progress(50)
                     status_text.info("✓ Credit tiers assigned")
                     
                     df['Default_Probability'] = df.apply(
                         lambda row: calculate_default_probability(row, row['Credit_Score']), axis=1
                     )
+                    progress_bar.progress(75)
+                    status_text.info("✓ Default probabilities calculated")
+
+                    # Generate Suggestions
+                    def get_formatted_suggestions(row):
+                        suggestions = generate_suggestions(row, row['Credit_Score'], row['Credit_Tier'])
+                        if not suggestions:
+                            return "No improvements needed"
+                        return " | ".join([f"{s['category']} ({s['priority']}): {s['suggestion']}" for s in suggestions])
+
+                    df['Recommendations'] = df.apply(get_formatted_suggestions, axis=1)
                     progress_bar.progress(100)
                     status_text.success(f"✅ Successfully scored {len(df)} customers!")
+                    
+                    # Store in session state
+                    st.session_state.batch_df = df
+            
+            # Display results if they exist in session state
+            if st.session_state.batch_df is not None:
+                df_results = st.session_state.batch_df
                 
                 st.markdown("---")
                 st.subheader("📊 Sample Results (First 10)")
                 st.dataframe(
-                    df[['Customer_ID', 'Name', 'Credit_Score', 'Credit_Tier', 'Default_Probability']].head(10),
+                    df_results[['Customer_ID', 'Name', 'Credit_Score', 'Credit_Tier', 'Default_Probability', 'Recommendations']].head(10),
                     use_container_width=True
                 )
                 
                 # Statistics
                 col1, col2, col3, col4 = st.columns(4)
                 with col1:
-                    avg_score = df['Credit_Score'].mean()
+                    avg_score = df_results['Credit_Score'].mean()
                     st.metric("📈 Avg Score", f"{avg_score:.0f}", f"{avg_score-500:.0f}")
                 with col2:
-                    avg_default = df['Default_Probability'].mean()
+                    avg_default = df_results['Default_Probability'].mean()
                     st.metric("⚠️ Avg Default Risk", f"{avg_default:.2%}")
                 with col3:
-                    excellent_count = len(df[df['Credit_Tier'] == 'Excellent'])
+                    excellent_count = len(df_results[df_results['Credit_Tier'] == 'Excellent'])
                     st.metric("🟢 Excellent", excellent_count)
                 with col4:
-                    poor_count = len(df[df['Credit_Tier'] == 'Poor'])
+                    poor_count = len(df_results[df_results['Credit_Tier'] == 'Poor'])
                     st.metric("🔴 Poor", poor_count)
                 
                 st.markdown("---")
                 
+                # Recommendations Info
+                st.markdown("### 💡 AI Recommendations Generated")
+                st.info("""
+                    **Note:** The system has analyzed each customer's profile and generated specific actions to improve their credit score. 
+                    These personalized suggestions are included in the **'Recommendations'** column of the downloadable CSV file below.
+                """)
+
                 # Download results
-                csv = df.to_csv(index=False)
+                csv = df_results[['Customer_ID', 'Name', 'Credit_Score', 'Credit_Tier', 'Default_Probability', 'Recommendations']].to_csv(index=False)
                 st.download_button(
-                    label="📥 Download Full Results",
+                    label="📥 Download Full Results (with Recommendations)",
                     data=csv,
-                    file_name="credit_scores.csv",
+                    file_name="credit_scores_with_recommendations.csv",
                     mime="text/csv",
                     use_container_width=True
                 )
+                
+                # Interactive Recommendations Section
+                st.markdown("---")
+                st.subheader("🔍 Interactive Analysis")
+                st.markdown("Select a customer below to view detailed insights and specific improvement suggestions.")
+                
+                selected_customer = st.selectbox(
+                    "Select Customer to Analyze",
+                    df_results['Name'].unique(),
+                    key="batch_customer_select"
+                )
+                
+                if selected_customer:
+                    customer_row = df_results[df_results['Name'] == selected_customer].iloc[0]
+                    score = customer_row['Credit_Score']
+                    tier = customer_row['Credit_Tier']
+                    
+                    # Logic to get emoji (re-using helper or just mapping if needed, but we have the function)
+                    # We can re-call get_credit_tier to get the emoji, as the DataFrame only stored the tier name
+                    _, emoji = get_credit_tier(score)
+                    
+                    # Customer Card
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric("👤 Customer", selected_customer)
+                    with col2:
+                        st.metric("⭐ Score", f"{score}/850")
+                    with col3:
+                        st.metric("📊 Tier", f"{emoji} {tier}")
+                    
+                    st.markdown("### ✨ Improvement Suggestions")
+                    
+                    # We can re-generate suggestions for display or parse the string. 
+                    # Re-generating is cleaner for UI (list format) vs parsing the string.
+                    suggestions = generate_suggestions(customer_row, score, tier)
+                    
+                    if suggestions:
+                        for i, sugg in enumerate(suggestions, 1):
+                            with st.expander(f"{i}. {sugg['category']} ({sugg['priority']})", expanded=True):
+                                st.write(sugg['suggestion'])
+                                st.markdown(f"**💪 Potential Impact:** `+{sugg['impact']} improvement`")
+                    else:
+                        st.success("✅ No improvements needed! This customer has excellent credit practices.")
 
                 
     
