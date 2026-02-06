@@ -2,6 +2,27 @@
 
 An intelligent credit risk assessment application built with Streamlit and Machine Learning.
 
+This repository contains an AI‑powered Credit Scoring and Default Risk Prediction System built with Python, Scikit‑learn and Streamlit. The app calculates credit scores on a 300–850 scale, predicts default probability, and segments customers into risk tiers (Excellent, Very Good, Good, Fair, Poor). It includes an interactive analytics dashboard, batch scoring for thousands of customers, an interest‑rate calculator, and personalized recommendations to help improve credit health.
+
+**Live Demo:** https://credit--scoring.streamlit.app/
+
+## ✨ Key Features
+
+1. Supervised ML model for credit‑default prediction and credit scoring
+2. 5‑factor score (payment history, utilization, age, mix, inquiries) mapped to 300–850 range
+3. Interactive Streamlit UI with banking‑style dashboard and KPI cards
+4. Analytics Dashboard for portfolio‑level insights (score distribution, tiers, risk levels)
+5. Recommendations page with customer‑specific improvement suggestions
+6. Batch Scoring: upload CSV to score thousands of customers at once
+7. Interest Rate Calculator that prices loans dynamically based on risk tier and DTI
+
+## 🛠 Tech Stack
+- **Language:** Python
+- **ML & Data:** Scikit‑learn, Pandas, NumPy
+- **App Framework:** Streamlit
+- **Visualization:** Plotly, Matplotlib/Seaborn
+- **Deployment:** Streamlit Cloud / Flask API
+
 ## 🚀 How to Run
 
 ### Prerequisite
